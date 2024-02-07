@@ -11,12 +11,9 @@ namespace BankApplication.backend
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-
         public string AccountNumber { get; set; }
-
-        public double AccountBalance { get; set; }
-
-        public Customer(int id, string name, string lastName, string accountNumber, double accountBalance)
+        public decimal AccountBalance { get; set; }
+        public Customer(int id, string name, string lastName, string accountNumber, decimal accountBalance)
         {
             Id = id;
             Name = name;
@@ -31,7 +28,7 @@ namespace BankApplication.backend
             Console.WriteLine($"ID: {customer.Id}");
             Console.WriteLine($"IMIĘ I NAZWISKO: {customer.Name} {customer.LastName}");
             Console.WriteLine($"NR KONTA: {customer.AccountNumber}");
-            Console.WriteLine($"SALDO: {customer.AccountBalance}");
+            Console.WriteLine($"SALDO: {Math.Round(customer.AccountBalance, 2)}");
         }
     }
 }

@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace BankApplication.backend
 {
-    internal class Manager
+    internal static class Manager
     {
-
-        public Manager()
-        {
-            
-        }
-
-        public void ShowOptions()
+        
+        public static void ShowOptions()
         {
             Console.WriteLine("WYBIERZ OPCJĘ:");
             Console.WriteLine("1 => LISTA WSZYSTKICH KLIENTÓW");
@@ -24,7 +19,7 @@ namespace BankApplication.backend
             Console.WriteLine("");
         }
 
-        public void Build(Bank bank)
+        public static void Build(Bank bank)
         {
             ShowOptions();
             int userChoice;
@@ -35,12 +30,19 @@ namespace BankApplication.backend
                 case 1:
                     Console.Clear();
                     bank.ShowCustomers();
-                    ShowOptions();
                     Build(bank);
                     break;
                 case 2:
                     var currentlyLoggedCustomer = bank.LogIn();
+                    if (currentlyLoggedCustomer == null)
+                    {
+                        break;
+                    }
                     var accoutToTransfer = bank.getAccountToTransfer(currentlyLoggedCustomer);
+                    if (accoutToTransfer == null || accoutToTransfer == currentlyLoggedCustomer)
+                    {
+                        break;
+                    }
                     bank.makeMoneyTransfer(currentlyLoggedCustomer, accoutToTransfer);
                     break;
                 case 3:
@@ -48,7 +50,6 @@ namespace BankApplication.backend
                     break;
                 default:
                     Console.Clear();
-                    ShowOptions();
                     Build(bank);
                     break;
             }

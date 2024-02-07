@@ -16,24 +16,25 @@ internal class Bank
         Console.WriteLine("ID | IMIĘ I NAZWISKO | NR KONTA | SALDO");
         foreach (var customer in Customers)
         {
-            Console.WriteLine($"{customer.Id} | {customer.Name} {customer.LastName} | {customer.AccountNumber} | {customer.AccountBalance} zł");
+            Console.WriteLine($"{customer.Id} | {customer.Name} {customer.LastName} | {customer.AccountNumber} | {Math.Round(customer.AccountBalance, 2)} zł");
         }
+        Console.WriteLine("\n");
     }
 
     public Customer LogIn()
     {
+        Console.Clear();
         Console.WriteLine("ZALOGUJ SIĘ WYBIERAJĄC ID KLIENTA: ");
         int userIdChoice;
         bool canParse = int.TryParse(Console.ReadLine(), out userIdChoice);
 
         var loggedCustomer = Customers.Find(x => x.Id == userIdChoice);
-
+        Console.Clear();
             if (loggedCustomer == null) 
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("LOGOWANIE NIEUDANE");
                 Console.ForegroundColor = ConsoleColor.White;
-                Environment.Exit(0);
             }
             else
             {
@@ -49,20 +50,18 @@ internal class Bank
         Console.WriteLine("WPISZ NUMER KONTA NA KTÓRY CHCESZ WYKONAĆ PRZELEW: ");
         var userInput = Console.ReadLine();
         var accountToTransfer = Customers.Find(x => x.AccountNumber == userInput);
-        Console.WriteLine(accountToTransfer);
-        if (accountToTransfer == null)
+        Console.Clear();
+        if (accountToTransfer is null)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("NIEPRAWIDŁOWY NUMER KONTA");
             Console.ForegroundColor = ConsoleColor.White;
-            Environment.Exit(0);
         }
-        if (accountToTransfer.AccountNumber == currentlyLoggedCustomer.AccountNumber)
+        else if (accountToTransfer.AccountNumber == currentlyLoggedCustomer.AccountNumber)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("NIE MOŻESZ ZROBIĆ PRZELEWU NA WŁASNE KONTO");
             Console.ForegroundColor = ConsoleColor.White;
-            Environment.Exit(0);
         }
         return accountToTransfer;
         
@@ -72,9 +71,11 @@ internal class Bank
 
     public void makeMoneyTransfer(Customer loggedCustomer, Customer transferTo)
     {
+        Console.Clear();
         Console.WriteLine("PODAJ KWOTĘ PRZELEWU: ");
-        double amountToTransfer;
-        bool canParse = double.TryParse(Console.ReadLine(), out amountToTransfer);
+        decimal amountToTransfer;
+        bool canParse = decimal.TryParse(Console.ReadLine(), out amountToTransfer);
+        Console.Clear();
         if (amountToTransfer > 0 && amountToTransfer <= loggedCustomer.AccountBalance)
         {
             loggedCustomer.AccountBalance -= amountToTransfer;
@@ -86,7 +87,7 @@ internal class Bank
         } else if (!canParse || amountToTransfer <= 0)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("NIEPRAWIDŁOWA KOWTA");
+            Console.WriteLine("NIEPRAWIDŁOWA KWOTA");
             Console.ForegroundColor = ConsoleColor.White;
         } else
         {

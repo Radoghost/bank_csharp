@@ -1,8 +1,8 @@
 ﻿using BankApplication.backend;
 
 var bank = new Bank();
-var manager = new Manager();
 
-manager.Build(bank);
+Manager.Build(bank);
 
 Console.ReadLine(); 
+
